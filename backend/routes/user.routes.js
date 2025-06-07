@@ -8,7 +8,6 @@ router.get('/', getAllUsers);
 
 router.put('/:id', editUser);
 
-
 router.post('/', createUser);
 
 router.delete('/:id', deleteUser);
