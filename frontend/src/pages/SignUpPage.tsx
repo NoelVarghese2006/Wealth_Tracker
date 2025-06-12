@@ -1,7 +1,4 @@
-import React, { useState } from 'react'
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useState } from 'react'
  
 import { Button } from "@/components/ui/button"
 // import {
@@ -18,20 +15,8 @@ import { useUserStore } from '@/store/user'
 import { toast, Toaster } from 'sonner'
 import { useTheme } from '@/components/ThemeProvider'
 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-  password: z.string().min(8, "Password must be at least 8 characters long").max(64, "Password must be less than 64 characters").regex(/[A-Z]/, "Password must contain at least one uppercase letter").regex(/[a-z]/, "Password must contain at least one lowercase letter").regex(/[0-9]/, "Password must contain at least one number").regex(/[\W_]/, "Password must contain at least one special character")
-})
-
 const SignUpPage = () => {
   const { theme } = useTheme()
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  })
 
   const { createUser } = useUserStore();
 

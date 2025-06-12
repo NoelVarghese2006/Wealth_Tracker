@@ -1,6 +1,6 @@
 import { TbSunMoon } from 'react-icons/tb'
 import { FaRegUser } from "react-icons/fa";
-import React from 'react'
+import { FaDollarSign } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useTheme } from '@/components/ThemeProvider';
@@ -18,6 +18,9 @@ const Navbar = () => {
           <Link to={"/"}>Wealth Tracker</Link>
         </div>
         <div className='flex flex-row items-center justify-between gap-1 p-4'>
+          <Link to={"/"}>
+            <Button><FaDollarSign className='text-2xl' /></Button>
+          </Link>
           <Link to={"/login"}>
             <Button><FaRegUser className='text-2xl' /></Button>
           </Link>

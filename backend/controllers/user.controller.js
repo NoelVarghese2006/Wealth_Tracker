@@ -12,6 +12,25 @@ export const getAllUsers = async (req, res) => {
     }
 }
 
+export const getUser = async (req, res) => {
+    const { username } = req.params;
+
+    if(!username) {
+        return res.status(400).json({ success: false, message: 'Username is required' });
+    }
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        console.error("Fetch error", error.message);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+
 export const editUser = async (req, res) => {
     const { id } = req.params;
 

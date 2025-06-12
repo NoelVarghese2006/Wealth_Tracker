@@ -12,14 +12,21 @@ interface User {
 }
 
 interface UserStore {
-    users: User[];
-    setUsers: (users: User[]) => void;
+    loggedIn: boolean;
+    mainUser: User;
+    setUser: (user: User) => void;
     createUser: (user: User) => Promise<{success: boolean, message: string}>;
+    getUser: (user: User) => Promise<{success: boolean, message: string}>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
-    users: [],
-    setUsers: (users) => set({ users }),
+    mainUser: {
+        username: "",
+        password: "",
+        data: [],
+    },
+    loggedIn: false,
+    setUser: (mainUser) => set({ mainUser }),
     createUser: async (user: User) => {
         if(!user.username || !user.password) {
             return {success:false, message: "Please fill in all fields."}
@@ -35,7 +42,21 @@ export const useUserStore = create<UserStore>((set) => ({
         if(data.success === false) {
             return {success:false, message: data.message || "An error occurred while creating the user."}
         }
-        set((state) => ({users:[...state.users, data.data]}))
         return {success:true, message: "Product created succesfully"}
+    },
+    getUser: async (user: User) => {
+        const res = await fetch(`/api/users/${user.username}`, {
+            method:"GET",
+        })
+        const data = await res.json();
+        if(data.success === false) {
+            return {success:false, message: data.message || "An error occurred while creating the user."}
         }
+        console.log(data.data)
+        if(user.password !== data.data.password) {
+            return {success:false, message: "Incorrect password."}
+        }
+        set({ mainUser: data.data, loggedIn: true });
+        return {success:true, message: "Login successful"}
+    }
 }));
