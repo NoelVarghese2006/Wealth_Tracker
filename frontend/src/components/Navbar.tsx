@@ -4,9 +4,12 @@ import { FaDollarSign } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useTheme } from '@/components/ThemeProvider';
+import { useUserStore } from '@/store/user';
 
 const Navbar = () => {
   const { theme, setTheme } = useTheme();
+
+  const { loggedIn } = useUserStore();
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -18,7 +21,7 @@ const Navbar = () => {
           <Link to={"/"}>Wealth Tracker</Link>
         </div>
         <div className='flex flex-row items-center justify-between gap-1 p-4'>
-          <Link to={"/"}>
+          <Link to={loggedIn ? "/main" : "/login"}>
             <Button><FaDollarSign className='text-2xl' /></Button>
           </Link>
           <Link to={"/login"}>

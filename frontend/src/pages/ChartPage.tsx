@@ -1,7 +1,13 @@
+// import React from 'react'
+
+import Sidebar from "@/components/Sidebar"
 
 const ChartPage = () => {
   return (
-    <div>ChartPage</div>
+    <div className="flex flex-row items-start justify-start w-full h-full">
+        <Sidebar />
+        <div>ChartPage</div>
+    </div>
   )
 }
 

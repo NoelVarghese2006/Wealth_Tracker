@@ -5,6 +5,9 @@ import SignUpPage from './pages/SignUpPage'
 import Navbar from './components/Navbar'
 import LoginPage from './pages/LoginPage'
 import { ThemeProvider } from './components/ThemeProvider'
+import MainPage from './pages/MainPage'
+import DataPage from './pages/DataPage'
+import ChartPage from './pages/ChartPage'
 
 function App() {
 
@@ -16,6 +19,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignUpPage />} />
+          <Route path='/main' element={<MainPage />} />
+          <Route path='/main/data' element={<DataPage />} />
+          <Route path='/main/charts' element={<ChartPage />} />
         </Routes>
       </div>
     </ThemeProvider>
