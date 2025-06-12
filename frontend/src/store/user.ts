@@ -1,24 +1,20 @@
 import {create} from 'zustand'
 
+interface DataEntry {
+  date: Date;
+  value: number;
+}
+
 interface User {
     username: string;
     password: string;
-    type: [
-        {
-            date: {
-            type: Date,
-            },
-            value: {
-            type: Number,
-            }
-        }
-        ],
-    default: []
+    data: DataEntry[];
 }
 
 interface UserStore {
     users: User[];
     setUsers: (users: User[]) => void;
+    createUser: (user: User) => Promise<{success: boolean, message: string}>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -28,7 +24,7 @@ export const useUserStore = create<UserStore>((set) => ({
         if(!user.username || !user.password) {
             return {success:false, message: "Please fill in all fields."}
         }
-        const res = await fetch("/api/products", {
+        const res = await fetch("/api/users", {
             method:"POST",
             headers:{
                 "Content-Type": "application/json"
