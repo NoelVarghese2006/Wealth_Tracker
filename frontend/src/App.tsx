@@ -8,6 +8,7 @@ import { ThemeProvider } from './components/ThemeProvider'
 import MainPage from './pages/MainPage'
 import DataPage from './pages/DataPage'
 import ChartPage from './pages/ChartPage'
+import AddPage from './pages/AddPage'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/main' element={<MainPage />} />
           <Route path='/main/data' element={<DataPage />} />
           <Route path='/main/charts' element={<ChartPage />} />
+          <Route path='/main/add' element={<AddPage />} />
         </Routes>
       </div>
     </ThemeProvider>

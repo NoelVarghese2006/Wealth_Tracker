@@ -13,12 +13,16 @@ const userSchema = new mongoose.Schema({
         type: [
         {
             date: {
-            type: Date,
-            required: true,
+                type: Date,
+                required: true,
+            },
+            revenue: {
+                type: Boolean,
+                required: true,
             },
             value: {
-            type: Number,
-            required: true,
+                type: Number,
+                required: true,
             }
         }
         ],
