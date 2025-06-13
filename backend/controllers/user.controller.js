@@ -76,6 +76,29 @@ export const createUser = async (req, res) => {
 
 }
 
+export const addData = async (req, res) => {
+    const { username } = req.params;
+    const {data} = req.body;
+    console.log(!data.date);
+    if(!data.date || !data.value) {
+        return res.status(400).json({ success: false, message: 'All fields are required from data' });
+    }
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        user.data.push(data);
+        await user.save();
+        res.status(200).json({ success: true, message: 'Data added successfully', data: user.data });
+    } catch (error) {
+        console.error("Data addition error", error.message);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
 

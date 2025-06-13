@@ -62,12 +62,15 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success:true, message: "Login successful"}
     },
     addDataEntry: async (entry: DataEntry, user: User) => {
+        //console.log(entry)
+        console.log(JSON.stringify({ data: entry }))
         const res = await fetch(`/api/users/${user.username}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ data: entry })
+            
         });
         const data = await res.json();
         return {success: data.success, message: data.message || "An error occurred while adding the entry."}
