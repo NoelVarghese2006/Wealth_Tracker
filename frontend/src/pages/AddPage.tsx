@@ -1,5 +1,6 @@
 // import React from 'react'
 
+import Sidebar from "@/components/Sidebar"
 import { useTheme } from "@/components/ThemeProvider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -43,15 +44,18 @@ const AddPage = () => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center mx-auto w-lg p-4 gap-4'>
-      <Toaster theme={theme} richColors={true} />
-      <Input placeholder='Date' type='date' value={newData.date} onChange={(e) => setNewData({ ...newData, date: e.target.value })}/>
-      <Input placeholder='Amount' type='number' name='price' value={newData.value} onChange={(e) => setNewData({ ...newData, value: e.target.value })}/>
-      <div className="flex items-center space-x-2">
-        <Switch checked={newData.revenue} onCheckedChange={(val) => setNewData({ ...newData, revenue: val })}/>
-        <Label>{newData.revenue ? "Revenue" : "Expense"}</Label>
+    <div className="flex flex-row items-start justify-start w-full h-full">
+      <Sidebar />
+      <div className='flex flex-col items-center justify-center mx-auto w-lg p-4 gap-4'>
+        <Toaster theme={theme} richColors={true} />
+        <Input placeholder='Date' type='date' value={newData.date} onChange={(e) => setNewData({ ...newData, date: e.target.value })}/>
+        <Input placeholder='Amount' type='number' name='price' value={newData.value} onChange={(e) => setNewData({ ...newData, value: e.target.value })}/>
+        <div className="flex items-center space-x-2">
+          <Switch checked={newData.revenue} onCheckedChange={(val) => setNewData({ ...newData, revenue: val })}/>
+          <Label>{newData.revenue ? "Revenue" : "Expense"}</Label>
+        </div>
+        <Button className='w-full bg-blue-300' onClick={onSubmit}>Add Expense/Revenue</Button>
       </div>
-      <Button className='w-full bg-blue-300' onClick={onSubmit}>Add Expense/Revenue</Button>
     </div>
   )
 }

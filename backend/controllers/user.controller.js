@@ -79,7 +79,6 @@ export const createUser = async (req, res) => {
 export const addData = async (req, res) => {
     const { username } = req.params;
     const {data} = req.body;
-    console.log(!data.date);
     if(!data.date || !data.value) {
         return res.status(400).json({ success: false, message: 'All fields are required from data' });
     }

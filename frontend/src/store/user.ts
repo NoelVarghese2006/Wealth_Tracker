@@ -73,6 +73,14 @@ export const useUserStore = create<UserStore>((set) => ({
             
         });
         const data = await res.json();
+        if(data.success === true) {
+            set((state) => ({
+                mainUser: {
+                    ...state.mainUser,
+                    data: [...state.mainUser.data, entry]
+                }
+            }));
+        }
         return {success: data.success, message: data.message || "An error occurred while adding the entry."}
     }
 }));
