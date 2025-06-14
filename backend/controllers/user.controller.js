@@ -31,6 +31,32 @@ export const getUser = async (req, res) => {
     }
 }
 
+export const deleteData = async (req, res) => {
+    const { username, index } = req.params;
+
+    if(!username || index === undefined) {
+        return res.status(400).json({ success: false, message: 'Username and index are required' });
+    }
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        if (index < 0 || index >= user.data.length) {
+            return res.status(400).json({ success: false, message: 'Invalid index' });
+        }
+
+        user.data.splice(index, 1);
+        await user.save();
+        res.status(200).json({ success: true, message: 'Data deleted successfully', data: user.data });
+    } catch (error) {
+        console.error("Deletion error", error.message);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+
 export const editUser = async (req, res) => {
     const { id } = req.params;
 

@@ -19,6 +19,7 @@ interface UserStore {
     createUser: (user: User) => Promise<{success: boolean, message: string}>;
     getUser: (user: User) => Promise<{success: boolean, message: string}>;
     addDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
+    deleteDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -82,5 +83,26 @@ export const useUserStore = create<UserStore>((set) => ({
             }));
         }
         return {success: data.success, message: data.message || "An error occurred while adding the entry."}
+    },
+    deleteDataEntry: async (entryD: DataEntry, user: User) => {
+        const index = user.data.findIndex(
+        (entry) =>
+            entry.date.toString() === entryD.date.toString() &&
+            entry.revenue === entryD.revenue &&
+            entry.value === entryD.value
+        );
+        const res = await fetch(`/api/users/${user.username}/${index}`, {
+            method: "DELETE",
+        });
+        const data = await res.json();
+        if(data.success === true) {
+            set((state) => ({
+                mainUser: {
+                    ...state.mainUser,
+                    data: state.mainUser.data.filter(d => d.date !== entryD.date || d.value !== entryD.value || d.revenue !== entryD.revenue)
+                }
+            }));
+        }
+        return {success: data.success, message: data.message || "An error occurred while deleting the entry."}
     }
 }));
