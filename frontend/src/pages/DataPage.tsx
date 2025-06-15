@@ -1,24 +1,47 @@
 // import React from 'react'
 
 import Sidebar from "@/components/Sidebar"
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useUserStore } from "@/store/user";
+import { Switch } from "@/components/ui/switch";
+import React from "react";
 import { toast, Toaster } from "sonner";
 
 interface DataEntry {
-  date: Date;
+  date: string;
   revenue: boolean;
-  value: number;
+  value: string;
+}
+
+interface realDataEntry {
+    date: Date;
+    revenue: boolean;
+    value: number;
 }
 
 const DataPage = () => {
   const { mainUser, deleteDataEntry } = useUserStore();
-  const formatUTCDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
-  };
-  const handleDelete = async (entry: DataEntry, mainUser: any) => {
-    const { success, message } = await deleteDataEntry(entry, mainUser);
+  const [ currentEntry, setCurrentEntry ] = React.useState<DataEntry>({
+    date: new Date().toISOString().split("T")[0],
+    revenue: false,
+    value: ""
+  });
+  const [ open, setOpen ] = React.useState(false);
+  const handleDelete = async () => {
+    
+    const tempDate = new Date(currentEntry.date);
+    console.log(tempDate.toISOString())
+    const tempEntry = {
+        date: new Date(tempDate.toISOString()),
+        revenue: currentEntry.revenue,
+        value: Number(currentEntry.value)
+    };  
+    console.log(tempEntry.date)
+    const { success, message } = await deleteDataEntry(tempEntry, mainUser);
 
     if (!success) {
         toast.error("Error", {
@@ -27,14 +50,63 @@ const DataPage = () => {
         });
     } else {
         toast.success("Deleted", {
-        description: `Value of ${entry.revenue ? entry.value : -entry.value} on ${new Date(entry.date).toLocaleDateString()} was deleted.`,
+        description: `Value of ${currentEntry.revenue ? currentEntry.value : -currentEntry.value} on ${new Date(currentEntry.date).toLocaleDateString()} was deleted.`,
         closeButton: true,
         });
     }
-    };
+    console.log(mainUser.data)
+  };
+  
+  const handleClick = (entry: realDataEntry) => {
+    console.log(entry.date)
+    const tempEntry = {
+        date: entry.date.toString().split("T")[0],
+        revenue: entry.revenue,
+        value: entry.value.toString()
+    }
+    // console.log(tempEntry.date)
+    setCurrentEntry(tempEntry);
+    // console.log(currentEntry.date)
+    setOpen(true);
+  };
+  
+  function formatDate(date: string | Date): string {
+    if (!date) return "";
+    const d = new Date(date);
+    return d.toISOString().slice(0, 10);
+}
+
+
 
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="sm:max-w-md bg:black">
+                <DialogHeader>
+                    <DialogTitle>Change Data?</DialogTitle>
+                    <DialogDescription>
+                        Edit or Delete the entry below.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className='flex flex-col items-center justify-center mx-auto p-4 gap-4'>
+                    <Input placeholder='Date' type='date' value={formatDate(currentEntry.date)} onChange={(e) => setCurrentEntry({ ...currentEntry, date: e.target.value })}/>
+                    <Input placeholder='Amount' type='number' name='price' value={currentEntry.value} onChange={(e) => setCurrentEntry({ ...currentEntry, value: e.target.value })}/>
+                    <div className="flex items-center space-x-2">
+                    <Switch checked={currentEntry.revenue} onCheckedChange={(val) => setCurrentEntry({ ...currentEntry, revenue: val })}/>
+                    <Label>{currentEntry.revenue ? "Revenue" : "Expense"}</Label>
+                    </div>
+                    
+                </div>
+                <DialogFooter className="sm:justify-start">
+                    <Button className=' bg-blue-300' onClick={handleDelete}>
+                        Add Expense/Revenue
+                    </Button>
+                    <Button type="button" variant="destructive" onClick={handleDelete}>
+                        Delete Entry
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
         <Toaster richColors={true} />
         <Sidebar />
         <div className="flex flex-col h-full items-center mx-auto">
@@ -52,9 +124,9 @@ const DataPage = () => {
                    {[...mainUser.data]
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .map((entry, index) => (
-                    <TableRow key={index} onClick={() => handleDelete(entry, mainUser)} >
+                    <TableRow key={index} onClick={() => handleClick(entry)} >
                         <TableCell className="font-medium">
-                        {formatUTCDate(entry.date.toString())}
+                        {new Date(entry.date).toISOString().split("T")[0]}
                         </TableCell>
                         <TableCell>
                         {entry.revenue ? "Revenue" : "Expense"}
