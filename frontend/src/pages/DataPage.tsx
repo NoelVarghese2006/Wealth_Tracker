@@ -31,15 +31,12 @@ const DataPage = () => {
     value: ""
   });
   const [ open, setOpen ] = React.useState(false);
-  const formatUTCDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    return `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
-  };
   const handleDelete = async () => {
-    console.log("String:", currentEntry.date);
+    
     const tempDate = new Date(currentEntry.date);
+    console.log(tempDate.toISOString())
     const tempEntry = {
-        date: new Date(tempDate),
+        date: new Date(tempDate.toISOString()),
         revenue: currentEntry.revenue,
         value: Number(currentEntry.value)
     };  
@@ -57,10 +54,11 @@ const DataPage = () => {
         closeButton: true,
         });
     }
+    console.log(mainUser.data)
   };
   
   const handleClick = (entry: realDataEntry) => {
-    // console.log(entry.date)
+    console.log(entry.date)
     const tempEntry = {
         date: entry.date.toString().split("T")[0],
         revenue: entry.revenue,

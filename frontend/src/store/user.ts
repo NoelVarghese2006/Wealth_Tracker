@@ -87,7 +87,7 @@ export const useUserStore = create<UserStore>((set) => ({
     deleteDataEntry: async (entryD: DataEntry, user: User) => {
         const index = user.data.findIndex(
         (entry) =>
-            entry.date.toString() === entryD.date.toString() &&
+            new Date(entry.date).toISOString() === entryD.date.toISOString() &&
             entry.revenue === entryD.revenue &&
             entry.value === entryD.value
         );
@@ -99,7 +99,7 @@ export const useUserStore = create<UserStore>((set) => ({
             set((state) => ({
                 mainUser: {
                     ...state.mainUser,
-                    data: state.mainUser.data.filter(d => d.date !== entryD.date || d.value !== entryD.value || d.revenue !== entryD.revenue)
+                    data: state.mainUser.data.filter(d => new Date(d.date).toISOString() !== entryD.date.toISOString() || d.value !== entryD.value || d.revenue !== entryD.revenue)
                 }
             }));
         }

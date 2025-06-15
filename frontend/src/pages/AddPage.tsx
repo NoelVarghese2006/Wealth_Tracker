@@ -20,8 +20,8 @@ const AddPage = () => {
   });
 
   const onSubmit = async ()  => {
-    //console.log(newData)
-    //console.log(mainUser)
+    console.log(newData)
+    console.log(mainUser)
     const data = {
       date: new Date(newData.date),
       revenue: newData.revenue,
