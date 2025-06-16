@@ -13,7 +13,7 @@ const LoginPage = () => {
       password: "",
       data: [],
   });
-  const { getUser } = useUserStore();
+  const { getUser, loggedIn, logout } = useUserStore();
   const onSubmit = async ()  => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -33,18 +33,37 @@ const LoginPage = () => {
       })
     }
     console.log(success, message);
+    console.log(loggedIn);
     
   }
+  const handleLogout = () => {
+    toast.success("Logged out", {
+      description: "You have been logged out successfully.",
+      closeButton: true,
+    });
+    logout();
+  }
   return (
-    <div className='flex flex-col items-center justify-center mx-auto w-lg p-4 gap-4'>
+    
+    <div className='flex justify-center items-center w-screen'>
       <Toaster theme={theme} richColors={true} />
-      <Input placeholder='Username' name='name' value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}/>
-      <Input placeholder='Password' type='password' name='price' value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}/>
-      <Button className='w-full bg-blue-300' onClick={onSubmit}>Login</Button>
-
-      <Link to={"/signup"}>
-        Create an account?
-      </Link>
+      {!loggedIn && (
+        <div className='flex flex-col items-center justify-center w-lg p-4 gap-4'>
+          <Input placeholder='Username' name='name' value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}/>
+          <Input placeholder='Password' type='password' name='price' value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}/>
+          <Button className='w-full bg-blue-300' onClick={onSubmit}>Login</Button>
+          <Link to={"/signup"}>
+            Create an account?
+          </Link>
+        </div>
+      )}
+      {loggedIn && (
+        <div className='flex flex-col items-center justify-center w-lg p-4 gap-4'>
+          <Button onClick={handleLogout}>Logout</Button>
+          <Button>Change Account Info?</Button>
+          <Button>Delete Account</Button>
+        </div>
+      )}
     </div>
   )
 }

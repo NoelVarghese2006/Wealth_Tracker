@@ -62,8 +62,8 @@ const chartConfig = {
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
         <Sidebar />
-        <div>
-          <Card className="w-lg mx-auto my-4">
+        <div className="flex flex-row items-start justify-start w-full h-full">
+          <Card className="w-4xl mx-auto my-4">
             <CardHeader>
                 <CardTitle>Area Chart</CardTitle>
                 <CardDescription>

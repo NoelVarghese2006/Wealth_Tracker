@@ -22,6 +22,7 @@ interface UserStore {
     addDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     deleteDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     editDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
+    logout: () => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -120,10 +121,13 @@ export const useUserStore = create<UserStore>((set) => ({
             set((state) => ({
                 mainUser: {
                     ...state.mainUser,
-                    data: state.mainUser.data.map((d, i) => d._id === entry._id ? entry : d)
+                    data: state.mainUser.data.map((d) => d._id === entry._id ? entry : d)
                 }
             }));
         }
         return {success: data.success, message: data.message || "An error occurred while editing the entry."}
+    },
+    logout: async () => {
+        set({ mainUser: { username: "", password: "", data: [] }, loggedIn: false});
     }
 }));
