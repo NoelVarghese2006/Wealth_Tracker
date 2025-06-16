@@ -57,6 +57,23 @@ export const deleteData = async (req, res) => {
     }
 }
 
+export const editData = async (req, res) => {
+    const { id } = req.params;
+
+    const data = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ success: false, message: "Invalid Product Id"});
+    }
+
+    try {
+        const updatedProduct = await User.findByIdAndUpdate(id, data ,{new:true});
+        res.status(200).json({success: true, data: updatedProduct});
+    } catch(error) {
+        res.status(500).json({success: false, message: "Server Error: Edit "});
+    }
+}
+
 export const editUser = async (req, res) => {
     const { id } = req.params;
 

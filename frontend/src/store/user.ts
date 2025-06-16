@@ -4,6 +4,7 @@ interface DataEntry {
   date: Date;
   revenue: boolean;
   value: number;
+  _id: string; // Assuming _id is part of the entry
 }
 
 interface User {
@@ -20,6 +21,7 @@ interface UserStore {
     getUser: (user: User) => Promise<{success: boolean, message: string}>;
     addDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     deleteDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
+    editDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -104,5 +106,24 @@ export const useUserStore = create<UserStore>((set) => ({
             }));
         }
         return {success: data.success, message: data.message || "An error occurred while deleting the entry."}
+    },
+    editDataEntry: async (entry: DataEntry, user: User) => {
+        const res = await fetch(`/api/users/${user.username}/${entry._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ data: entry })
+        });
+        const data = await res.json();
+        if(data.success === true) {
+            set((state) => ({
+                mainUser: {
+                    ...state.mainUser,
+                    data: state.mainUser.data.map((d, i) => d._id === entry._id ? entry : d)
+                }
+            }));
+        }
+        return {success: data.success, message: data.message || "An error occurred while editing the entry."}
     }
 }));
