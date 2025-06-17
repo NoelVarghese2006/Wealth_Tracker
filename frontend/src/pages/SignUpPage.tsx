@@ -24,6 +24,7 @@ const SignUpPage = () => {
     username: "",
     password: "",
     data: [],
+    _id: ""
   });
 
   const onSubmit = async ()  => {

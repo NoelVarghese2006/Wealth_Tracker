@@ -11,6 +11,7 @@ interface User {
     username: string;
     password: string;
     data: DataEntry[];
+    _id: string; // Assuming _id is part of the user
 }
 
 interface UserStore {
@@ -20,6 +21,7 @@ interface UserStore {
     createUser: (user: User) => Promise<{success: boolean, message: string}>;
     getUser: (user: User) => Promise<{success: boolean, message: string}>;
     addDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
+    editUser: (user: User) => Promise<{success: boolean, message: string}>;
     deleteDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     editDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     logout: () => void;
@@ -30,6 +32,7 @@ export const useUserStore = create<UserStore>((set) => ({
         username: "",
         password: "",
         data: [],
+        _id: "" // Initialize _id as an empty string
     },
     loggedIn: false,
     setUser: (mainUser) => set({ mainUser }),
@@ -64,6 +67,21 @@ export const useUserStore = create<UserStore>((set) => ({
         }
         set({ mainUser: data.data, loggedIn: true });
         return {success:true, message: "Login successful"}
+    },
+    editUser: async (user: User) => {
+        const res = await fetch(`/api/users/${user._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+        const data = await res.json();
+        if(data.success === false) {
+            return {success:false, message: data.message || "An error occurred while editing the user."}
+        }
+        set({ mainUser: data.data });
+        return {success:true, message: "User edited successfully"}
     },
     addDataEntry: async (entry: DataEntry, user: User) => {
         //console.log(entry)
@@ -128,6 +146,6 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success: data.success, message: data.message || "An error occurred while editing the entry."}
     },
     logout: async () => {
-        set({ mainUser: { username: "", password: "", data: [] }, loggedIn: false});
+        set({ mainUser: { username: "", password: "", data: [], _id: "" }, loggedIn: false});
     }
 }));
