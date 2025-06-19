@@ -26,6 +26,7 @@ const AddPage = () => {
       date: new Date(newData.date),
       revenue: newData.revenue,
       value: parseFloat(newData.value),
+      _id: ""
     }
     const {success, message} = await addDataEntry(data, mainUser);
     if(!success) {

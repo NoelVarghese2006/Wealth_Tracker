@@ -17,6 +17,7 @@ const LoginPage = () => {
   });
   const [passwordCheck, setPasswordCheck] = useState("");
   const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const { getUser, loggedIn, logout, mainUser, editUser } = useUserStore();
   const onSubmit = async ()  => {
     // Do something with the form values.
@@ -75,6 +76,9 @@ const LoginPage = () => {
       setOpen(false); // Close the dialog after successful edit
     }
   }
+  const handleDelete = async () => {
+
+  } 
   return (
     <div className='flex justify-center items-center w-screen'>
       <Toaster theme={theme} richColors={true} />
@@ -107,15 +111,27 @@ const LoginPage = () => {
                 <Button className=' bg-blue-300' onClick={handleEdit}>
                   Add Expense/Revenue
                 </Button>
-                <Button type="button" variant="destructive" onClick={handleEdit}>
-                  Delete Entry
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <Dialog open={open2} onOpenChange={setOpen2}>
+            <DialogContent className="sm:max-w-md bg:black">
+              <DialogHeader>
+                <DialogTitle>Are You Sure?</DialogTitle>
+                <DialogDescription>
+                  Reconfirm your accound deletion.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="sm:justify-start">
+                <Button type="button" variant="destructive" onClick={handleDelete}>
+                  Delete Account
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
           <Button onClick={handleLogout}>Logout</Button>
           <Button onClick={() => setOpen(true)}>Change Account Info?</Button>
-          <Button>Delete Account</Button>
+          <Button onClick={() => setOpen2(true)}>Delete Account</Button>
         </div>
       )}
     </div>

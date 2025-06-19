@@ -16,7 +16,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className='flex flex-row items-center justify-between w-full p-4'>
+    <div className='flex flex-row items-center justify-between w-full p-4 h-[10dvh]'>
         <div className='font-extrabold text-2xl uppercase dark:text-blue-300 text-blue-700'>
           <Link to={"/"}>Wealth Tracker</Link>
         </div>
