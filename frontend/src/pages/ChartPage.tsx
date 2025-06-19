@@ -51,13 +51,21 @@ const ChartPage = () => {
   const { mainUser } = useUserStore();
   
   const totals = buildCumulativeTotals(mainUser.data);
+  const firstTotal = totals[0]?.total ?? 0;
+  const lastTotal = totals[totals.length - 1]?.total ?? 0;
+  const date1 = totals[0]?.date ?? "";
+  const date2 = totals[totals.length - 1]?.date ?? "";
+  const percentageChange = ((lastTotal - firstTotal) / Math.abs(firstTotal)) * 100;
+  const isTrendingUp = percentageChange > 0;
 
-const chartConfig = {
-  desktop: {
-    label: "Total",
-    color: "var(--chart-1)",
-  },
-} satisfies ChartConfig
+
+
+  const chartConfig = {
+    desktop: {
+      label: "Total",
+      color: "var(--chart-1)",
+    },
+  } satisfies ChartConfig
   
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
@@ -105,14 +113,14 @@ const chartConfig = {
             </CardContent>
             <CardFooter>
                 <div className="flex w-full items-start gap-2 text-sm">
-                <div className="grid gap-2">
-                    <div className="flex items-center gap-2 leading-none font-medium">
-                    Trending up by 5.2% this month
-                    </div>
-                    <div className="text-muted-foreground flex items-center gap-2 leading-none">
-                    January - June 2024
-                    </div>
-                </div>
+                  <div className="grid gap-2">
+                      <div className={`flex items-center gap-2 leading-none font-medium ${isTrendingUp ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+                      Trending {isTrendingUp ? "up" : "down"} by {isTrendingUp ? percentageChange : -percentageChange}% this interval
+                      </div>
+                      <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                      {date1} to {date2}
+                      </div>
+                  </div>
                 </div>
             </CardFooter>
             </Card>

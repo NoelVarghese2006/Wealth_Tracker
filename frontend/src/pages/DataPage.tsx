@@ -152,7 +152,7 @@ const DataPage = () => {
                    {[...mainUser.data]
                     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
                     .map((entry, index) => (
-                    <TableRow key={index} onClick={() => handleClick(entry)} >
+                    <TableRow key={index} onClick={() => handleClick(entry as realDataEntry)} >
                         <TableCell className="font-medium">
                         {new Date(entry.date).toISOString().split("T")[0]}
                         </TableCell>

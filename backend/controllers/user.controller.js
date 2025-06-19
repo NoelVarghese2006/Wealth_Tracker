@@ -95,7 +95,7 @@ export const createUser = async (req, res) => {
     const user = req.body;
 
     if(!user.username || !user.password) {
-        return res.status(400).json({ sucess: false, message: 'All fields are required' });
+        return res.status(400).json({ sucess: false, message: 'All fields are required from createUser' });
     }
     const username = user.username
     const existingUser = await User.findOne({ username });

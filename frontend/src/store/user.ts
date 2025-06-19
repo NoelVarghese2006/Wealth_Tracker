@@ -4,7 +4,7 @@ interface DataEntry {
   date: Date;
   revenue: boolean;
   value: number;
-  _id: string; // Assuming _id is part of the entry
+  _id?: string; // Assuming _id is part of the entry
 }
 
 interface User {

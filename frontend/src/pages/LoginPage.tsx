@@ -80,7 +80,7 @@ const LoginPage = () => {
 
   } 
   return (
-    <div className='flex justify-center items-center w-screen'>
+    <div className='flex justify-center items-center w-screen h-[40dvh]'>
       <Toaster theme={theme} richColors={true} />
       {!loggedIn && (
         <div className='flex flex-col items-center justify-center w-lg p-4 gap-4'>
