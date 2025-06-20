@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', getAllUsers);
 
-router.get('/:username', getUser);
+router.get('/:username/:password', getUser);
 
 router.post('/:username', addData);
 

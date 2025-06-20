@@ -9,7 +9,7 @@ interface DataEntry {
 
 interface User {
     username: string;
-    password: string;
+    password?: string;
     data: DataEntry[];
     _id: string; // Assuming _id is part of the user
 }
@@ -30,7 +30,7 @@ interface UserStore {
 export const useUserStore = create<UserStore>((set) => ({
     mainUser: {
         username: "",
-        password: "",
+        //password: "",
         data: [],
         _id: "" // Initialize _id as an empty string
     },
@@ -54,7 +54,7 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success:true, message: "Product created succesfully"}
     },
     getUser: async (user: User) => {
-        const res = await fetch(`/api/users/${user.username}`, {
+        const res = await fetch(`/api/users/${user.username}/${user.password}`, {
             method:"GET",
         })
         const data = await res.json();
@@ -62,9 +62,6 @@ export const useUserStore = create<UserStore>((set) => ({
             return {success:false, message: data.message || "An error occurred while creating the user."}
         }
         console.log(data.data)
-        if(user.password !== data.data.password) {
-            return {success:false, message: "Incorrect password."}
-        }
         set({ mainUser: data.data, loggedIn: true });
         return {success:true, message: "Login successful"}
     },

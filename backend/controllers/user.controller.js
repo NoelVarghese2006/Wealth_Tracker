@@ -1,5 +1,6 @@
 import User from '../models/user.model.js';
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 
 export const getAllUsers = async (req, res) => {
@@ -13,7 +14,7 @@ export const getAllUsers = async (req, res) => {
 }
 
 export const getUser = async (req, res) => {
-    const { username } = req.params;
+    const { username, password } = req.params;
 
     if(!username) {
         return res.status(400).json({ success: false, message: 'Username is required' });
@@ -23,6 +24,12 @@ export const getUser = async (req, res) => {
         const user = await User.findOne({ username });
         if (!user) {
             return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        if (password) {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(401).json({ success: false, message: 'Invalid password' });
+            }
         }
         res.status(200).json({ success: true, data: user });
     } catch (error) {
@@ -82,8 +89,20 @@ export const editUser = async (req, res) => {
     }
 
     const userData = req.body;
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+    if(!userData.username || !userData.password) {
+        return res.status(400).json({ success: false, message: 'All fields are required from editUser' });
+    }
+    const fixData = {
+        username: userData.username,
+        password: hashedPassword, // In a real application, hash the password before saving
+        data: userData.data || []
+    };
+
     try {
-        const newUser = await User.findByIdAndUpdate(id, userData, { new: true });
+        const newUser = await User.findByIdAndUpdate(id, fixData, { new: true });
         res.status(200).json({ success: true, message: 'User updated successfully', newUser });
     } catch (error) {   
         console.error("Update error", error.message);
@@ -103,9 +122,12 @@ export const createUser = async (req, res) => {
         return res.status(400).json({ success: false, message: 'User already exists' });
     }
 
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
     const newUser = new User({
         username: user.username,
-        password: user.password, // In a real application, hash the password before saving
+        password: hashedPassword, // In a real application, hash the password before saving
         data: []
     });
 
