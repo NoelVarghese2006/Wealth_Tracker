@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
         <Sidebar />
-        <div className="flex h-screen w-screen text-center justify-center items-center">Hello {mainUser.username}</div>
+        <div className="flex h-[90dvh] w-screen text-center justify-center items-center">Hello {mainUser.username}</div>
     </div>
   )
 }

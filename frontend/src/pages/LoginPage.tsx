@@ -36,6 +36,12 @@ const LoginPage = () => {
           closeButton: true,
 
       })
+      setTimeout(() => {
+        toast.info("Need Help?", {
+          description: "To see your data, click on the '$' icon in the navigation bar.",
+          closeButton: true,
+        });
+      }, 10000);
     }
     console.log(success, message);
     console.log(loggedIn);

@@ -55,7 +55,8 @@ const ChartPage = () => {
   const lastTotal = totals[totals.length - 1]?.total ?? 0;
   const date1 = totals[0]?.date ?? "";
   const date2 = totals[totals.length - 1]?.date ?? "";
-  const percentageChange = ((lastTotal - firstTotal) / Math.abs(firstTotal)) * 100;
+  const percentageChange2 = ((lastTotal - firstTotal) / Math.abs(firstTotal)) * 100;
+  const percentageChange = Math.round(percentageChange2 * 100) / 100; // Round to 2 decimal places
   const isTrendingUp = percentageChange > 0;
 
 

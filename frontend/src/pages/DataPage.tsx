@@ -5,17 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+// import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useUserStore } from "@/store/user";
 import { Switch } from "@/components/ui/switch";
 import React from "react";
 import { toast, Toaster } from "sonner";
+import { DataTable } from "@/components/DataTable";
+import { columns } from "@/components/columns";
 
 interface DataEntry {
   date: string;
   revenue: boolean;
   value: string;
- _id: string; // Optional _id for the entry, if needed
+  _id: string; // Optional _id for the entry, if needed
 }
 
 interface realDataEntry {
@@ -97,15 +99,6 @@ const DataPage = () => {
     // console.log(currentEntry.date)
     setOpen(true);
   };
-  
-  function formatDate(date: string | Date): string {
-    if (!date) return "";
-    const d = new Date(date);
-    return d.toISOString().slice(0, 10);
-}
-
-
-
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
         <Dialog open={open} onOpenChange={setOpen}>
@@ -117,7 +110,7 @@ const DataPage = () => {
                     </DialogDescription>
                 </DialogHeader>
                 <div className='flex flex-col items-center justify-center mx-auto p-4 gap-4'>
-                    <Input placeholder='Date' type='date' value={formatDate(currentEntry.date)} onChange={(e) => setCurrentEntry({ ...currentEntry, date: e.target.value })}/>
+                    <Input placeholder='Date' type='date' value={currentEntry.date} onChange={(e) => setCurrentEntry({ ...currentEntry, date: e.target.value })}/>
                     <Input placeholder='Amount' type='number' name='price' value={currentEntry.value} onChange={(e) => setCurrentEntry({ ...currentEntry, value: e.target.value })}/>
                     <div className="flex items-center space-x-2">
                     <Switch checked={currentEntry.revenue} onCheckedChange={(val) => setCurrentEntry({ ...currentEntry, revenue: val })}/>
@@ -139,7 +132,8 @@ const DataPage = () => {
         <Sidebar />
         <div className="flex flex-col h-full items-center mx-auto">
             <div>Past Entries</div>
-            <Table>
+            <DataTable columns={columns} data={mainUser.data as realDataEntry[]} />
+            {/* <Table>
                 <TableCaption>A list of your recent entries.</TableCaption>
                 <TableHeader>
                     <TableRow>
@@ -159,15 +153,13 @@ const DataPage = () => {
                         <TableCell>
                         {entry.revenue ? "Revenue" : "Expense"}
                         </TableCell>
-                        {/* No paymentMethod in your type, so use a placeholder */}
                         <TableCell className="text-right">
                         ${entry.value.toFixed(2)}
                         </TableCell>
                     </TableRow>
                     ))}
-
                 </TableBody>
-            </Table>
+            </Table> */}
         </div>
     </div>
   )
