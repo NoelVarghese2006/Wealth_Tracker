@@ -22,7 +22,7 @@ const LoginPage = () => {
   const onSubmit = async ()  => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(theme)
+    //console.log(theme)
     const {success, message} = await getUser(newUser);
     if(!success) {
       toast.error("Error", {
@@ -43,8 +43,9 @@ const LoginPage = () => {
         });
       }, 10000);
     }
-    console.log(success, message);
-    console.log(loggedIn);
+    newUser.password = ""
+    //console.log(success, message);
+    //console.log(loggedIn);
     
   }
   const handleLogout = () => {
