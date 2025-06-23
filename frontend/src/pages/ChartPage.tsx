@@ -55,7 +55,8 @@ const ChartPage = () => {
   const lastTotal = totals[totals.length - 1]?.total ?? 0;
   const date1 = totals[0]?.date ?? "";
   const date2 = totals[totals.length - 1]?.date ?? "";
-  const percentageChange = ((lastTotal - firstTotal) / Math.abs(firstTotal)) * 100;
+  const percentageChange2 = ((lastTotal - firstTotal) / Math.abs(firstTotal)) * 100;
+  const percentageChange = Math.round(percentageChange2 * 100) / 100; // Round to 2 decimal places
   const isTrendingUp = percentageChange > 0;
 
 
@@ -90,12 +91,20 @@ const ChartPage = () => {
                 >
                     <CartesianGrid vertical={false} />
                     <XAxis
-                    interval={0}
                     dataKey="date"
                     tickLine={false}
                     axisLine={false}
                     tickMargin={8}
-                    tickFormatter={(value) => value.slice(5)}
+                    padding={{ left: 20, right: 20 }}
+                    ticks={
+                      totals.length > 1
+                        ? [totals[0].date, totals[totals.length - 1].date]
+                        : totals.length === 1
+                        ? [totals[0].date]
+                        : []
+                    }
+                    interval={0}
+                    tickFormatter={(value: string) => value}
                     />
                     <ChartTooltip
                     cursor={false}
@@ -103,10 +112,10 @@ const ChartPage = () => {
                     />
                     <Area
                     dataKey="total"
-                    type="natural"
-                    fill="var(--color-desktop)"
+                    type="linear"
+                    fill={isTrendingUp ? "rgba(34,197,94,0.2)" : "rgba(239,68,68,0.2)"}
                     fillOpacity={0.4}
-                    stroke="var(--color-desktop)"
+                    stroke={isTrendingUp ? "#22c55e" : "#ef4444"}
                     />
                 </AreaChart>
                 </ChartContainer>
