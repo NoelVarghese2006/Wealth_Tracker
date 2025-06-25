@@ -93,8 +93,8 @@ const LoginPage = () => {
         <div className='flex flex-col items-center justify-center w-lg p-4 gap-4'>
           <Input placeholder='Username' name='name' value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}/>
           <Input placeholder='Password' type='password' name='price' value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}/>
-          <Button className='w-full bg-blue-300' onClick={onSubmit}>Login</Button>
-          <Link to={"/signup"}>
+          <Button className='w-full bg-green-400' onClick={onSubmit}>Login</Button>
+          <Link to={"/signup"} className='hover:underline'>
             Create an account?
           </Link>
         </div>
@@ -115,7 +115,7 @@ const LoginPage = () => {
                 <Input placeholder='Reenter Password' type='password' value={passwordCheck} onChange={(e) => setPasswordCheck(e.target.value)}/> 
               </div>
               <DialogFooter className="sm:justify-start">
-                <Button className=' bg-blue-300' onClick={handleEdit}>
+                <Button className=' bg-green-400' onClick={handleEdit}>
                   Add Expense/Revenue
                 </Button>
               </DialogFooter>
@@ -136,9 +136,9 @@ const LoginPage = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-          <Button onClick={handleLogout}>Logout</Button>
-          <Button onClick={() => setOpen(true)}>Change Account Info?</Button>
-          <Button onClick={() => setOpen2(true)}>Delete Account</Button>
+          <Button onClick={handleLogout} className='bg-green-400'>Logout</Button>
+          <Button onClick={() => setOpen(true)} className='bg-green-400'>Change Account Info?</Button>
+          <Button onClick={() => setOpen2(true)} variant='destructive'>Delete Account</Button>
         </div>
       )}
     </div>

@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <div className='flex flex-row items-center justify-between w-full p-4 h-[10dvh]'>
-        <div className='font-extrabold text-2xl uppercase dark:text-blue-300 text-blue-700'>
+        <div className='font-extrabold text-2xl uppercase text-green-400'>
           <Link to={"/"}>Wealth Tracker</Link>
         </div>
         <div className='flex flex-row items-center justify-between gap-1 p-4'>

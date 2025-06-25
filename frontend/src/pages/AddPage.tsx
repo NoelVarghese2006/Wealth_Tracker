@@ -54,7 +54,7 @@ const AddPage = () => {
           <Switch checked={newData.revenue} onCheckedChange={(val) => setNewData({ ...newData, revenue: val })}/>
           <Label>{newData.revenue ? "Revenue" : "Expense"}</Label>
         </div>
-        <Button className='w-full bg-blue-300' onClick={onSubmit}>Add Expense/Revenue</Button>
+        <Button className='w-full bg-green-400' onClick={onSubmit}>Add Expense/Revenue</Button>
       </div>
     </div>
   )

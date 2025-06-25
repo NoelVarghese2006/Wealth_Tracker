@@ -76,7 +76,7 @@ const ChartPage = () => {
             <CardHeader>
                 <CardTitle>Area Chart</CardTitle>
                 <CardDescription>
-                Showing total visitors for the last 6 months
+                Showing new worth over time
                 </CardDescription>
             </CardHeader>
             <CardContent>

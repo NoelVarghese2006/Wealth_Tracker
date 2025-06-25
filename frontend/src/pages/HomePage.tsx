@@ -11,7 +11,7 @@ const HomePage = () => {
           scale: [1, 0.9, 1],
         }}
         transition={{
-          duration: 4,
+          duration: 6,
           repeat: Infinity,
           ease: "easeInOut",
         }}
@@ -21,10 +21,10 @@ const HomePage = () => {
       alt="Dollar Sign" 
       className="mx-auto absolute inset-0 size-150 object-cover z-0"
       animate={{
-        y: [0, -25, 0], // moves up 5px then back to 0
+        y: [0, -15, 0], // moves up 5px then back to 0
       }}
       transition={{
-        duration: 4,
+        duration: 6,
         repeat: Infinity,
         ease: "easeInOut",
       }} />

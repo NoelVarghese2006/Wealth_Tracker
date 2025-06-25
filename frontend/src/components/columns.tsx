@@ -129,8 +129,8 @@ export const columns: ColumnDef<Entry>[] = [
                   
               </div>
               <DialogFooter className="sm:justify-start">
-                  <Button className=' bg-blue-300' onClick={handleEdit}>
-                      Add Expense/Revenue
+                  <Button className=' bg-green-400' onClick={handleEdit}>
+                      Edit Expense/Revenue
                   </Button>
                   <Button type="button" variant="destructive" onClick={handleDelete}>
                       Delete Entry
