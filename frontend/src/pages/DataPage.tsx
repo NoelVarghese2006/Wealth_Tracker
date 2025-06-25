@@ -86,19 +86,19 @@ const DataPage = () => {
 
   }
   
-  const handleClick = (entry: realDataEntry) => {
-    console.log(entry.date)
-    const tempEntry = {
-        date: entry.date.toString().split("T")[0],
-        revenue: entry.revenue,
-        value: entry.value.toString(),
-        _id: entry._id // Assuming _id is part of the entry
-    }
-    // console.log(tempEntry.date)
-    setCurrentEntry(tempEntry);
-    // console.log(currentEntry.date)
-    setOpen(true);
-  };
+//   const handleClick = (entry: realDataEntry) => {
+//     console.log(entry.date)
+//     const tempEntry = {
+//         date: entry.date.toString().split("T")[0],
+//         revenue: entry.revenue,
+//         value: entry.value.toString(),
+//         _id: entry._id // Assuming _id is part of the entry
+//     }
+//     // console.log(tempEntry.date)
+//     setCurrentEntry(tempEntry);
+//     // console.log(currentEntry.date)
+//     setOpen(true);
+//   };
   return (
     <div className="flex flex-row items-start justify-start w-full h-full">
         <Dialog open={open} onOpenChange={setOpen}>

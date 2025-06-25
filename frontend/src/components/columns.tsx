@@ -33,6 +33,10 @@ export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "revenue",
     header: "Type",
+    cell: ({row}) => {
+      const tempBool = row.getValue("revenue");
+      return tempBool ? <span className="text-green-600 dark:text-green-400">Revenue</span> : <span className="text-red-600 dark:text-red-400">Expense</span>
+    }
   },
   {
     accessorKey: "value",

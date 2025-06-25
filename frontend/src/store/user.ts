@@ -54,7 +54,7 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success:true, message: "Product created succesfully"}
     },
     getUser: async (user: User) => {
-        const res = await fetch(`/api/users/${user.username}/${user.password}`, {
+        const res = await fetch(`/api/users/credentials/${user.username}/${user.password}`, {
             method:"GET",
         })
         const data = await res.json();
@@ -66,7 +66,7 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success:true, message: "Login successful"}
     },
     editUser: async (user: User) => {
-        const res = await fetch(`/api/users/${user._id}`, {
+        const res = await fetch(`/api/users/user/${user._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -83,7 +83,7 @@ export const useUserStore = create<UserStore>((set) => ({
     addDataEntry: async (entry: DataEntry, user: User) => {
         //console.log(entry)
         console.log(JSON.stringify({ data: entry }))
-        const res = await fetch(`/api/users/${user.username}`, {
+        const res = await fetch(`/api/users/data/${user.username}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -109,7 +109,7 @@ export const useUserStore = create<UserStore>((set) => ({
             entry.revenue === entryD.revenue &&
             entry.value === entryD.value
         );
-        const res = await fetch(`/api/users/${user.username}/${index}`, {
+        const res = await fetch(`/api/users/data/${user.username}/${index}`, {
             method: "DELETE",
         });
         const data = await res.json();
@@ -124,7 +124,7 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success: data.success, message: data.message || "An error occurred while deleting the entry."}
     },
     editDataEntry: async (entry: DataEntry, user: User) => {
-        const res = await fetch(`/api/users/${user.username}/${entry._id}`, {
+        const res = await fetch(`/api/users/data/${user.username}/${entry._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

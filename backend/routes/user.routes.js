@@ -6,18 +6,18 @@ const router = express.Router();
 
 router.get('/', getAllUsers);
 
-router.get('/:username/:password', getUser);
+router.get('/credentials/:username/:password', getUser); // renamed for clarity
 
-router.post('/:username', addData);
+router.post('/data/:username', addData);
 
 router.post('/', createUser);
 
-router.delete('/:username/:index', deleteData);
+router.delete('/data/:username/:index', deleteData);
 
-router.delete('/:id', deleteUser);
+router.delete('/user/:id', deleteUser); // disambiguated
 
-router.put('/:username/:id', editData);
+router.put('/data/:username/:index', editData);
 
-router.put('/:id', editUser);
+router.put('/user/:id', editUser); // disambiguated
 
 export default router;
