@@ -24,6 +24,11 @@ export const columns: ColumnDef<Entry>[] = [
   {
     accessorKey: "date",
     header: "Date",
+    cell: ({ row }) => {
+      const dateValue = row.getValue("date");
+      const dateObj = dateValue instanceof Date ? dateValue : new Date(dateValue as string | number | Date);
+      return <span>{dateObj.toISOString().split("T")[0]}</span>;
+    },
   },
   {
     accessorKey: "revenue",
