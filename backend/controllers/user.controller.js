@@ -41,7 +41,7 @@ export const getUser = async (req, res) => {
 export const deleteData = async (req, res) => {
     const { user_id, id } = req.params;
 
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.status(404).json({ success: false, message: "Product not found" });
     }
 
@@ -60,7 +60,7 @@ export const editData = async (req, res) => {
     const { user_id, id } = req.params;
 
     const data = req.body;
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if(!mongoose.Types.ObjectId.isValid(user_id)){
         return res.status(404).json({ success: false, message: "Product not found" });
     }
 
