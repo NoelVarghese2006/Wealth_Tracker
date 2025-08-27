@@ -103,13 +103,7 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success: data.success, message: data.message || "An error occurred while adding the entry."}
     },
     deleteDataEntry: async (entryD: DataEntry, user: User) => {
-        const index = user.data.findIndex(
-        (entry) =>
-            new Date(entry.date).toISOString() === entryD.date.toISOString() &&
-            entry.revenue === entryD.revenue &&
-            entry.value === entryD.value
-        );
-        const res = await fetch(`/api/users/data/${user.username}/${index}`, {
+        const res = await fetch(`/api/users/data/${user._id}/${entryD._id}`, {
             method: "DELETE",
         });
         const data = await res.json();
@@ -124,14 +118,16 @@ export const useUserStore = create<UserStore>((set) => ({
         return {success: data.success, message: data.message || "An error occurred while deleting the entry."}
     },
     editDataEntry: async (entry: DataEntry, user: User) => {
-        const res = await fetch(`/api/users/data/${user.username}/${entry._id}`, {
+        const tempBody = { date: new Date(entry.date), revenue: entry.revenue, value: entry.value }
+        const res = await fetch(`/api/users/data/${user._id}/${entry._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ data: entry })
+            body: JSON.stringify(tempBody)
         });
         const data = await res.json();
+        console.log(data)
         if(data.success === true) {
             set((state) => ({
                 mainUser: {

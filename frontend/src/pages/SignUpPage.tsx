@@ -55,7 +55,7 @@ const SignUpPage = () => {
       <Toaster theme={theme} richColors={true} />
       <Input placeholder='New Username' name='name' value={newUser.username} onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}/>
       <Input placeholder='Password' type='name' name='price' value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}/>
-      <Button className='w-full bg-blue-300' onClick={onSubmit}>Add User</Button>
+      <Button className='w-full bg-green-400' onClick={onSubmit}>Add User</Button>
     </div>
     </div>
   )

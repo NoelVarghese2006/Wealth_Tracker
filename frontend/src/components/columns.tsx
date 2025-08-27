@@ -63,6 +63,7 @@ export const columns: ColumnDef<Entry>[] = [
             value: Number(currentEntry.value),
             _id: currentEntry._id // Assuming _id is part of the entry
         }; 
+        console.log(tempEntry)
         const {success, message} = await editDataEntry(tempEntry, mainUser);
         
         if (!success) {
@@ -71,8 +72,8 @@ export const columns: ColumnDef<Entry>[] = [
             closeButton: true,
             });
         } else {
-            toast.success("Deleted", {
-            description: `Entry on ${new Date(currentEntry.date).toLocaleDateString()} was changed.`,
+            toast.success("Changed", {
+            description: message,
             closeButton: true,
             });
         }
@@ -88,7 +89,6 @@ export const columns: ColumnDef<Entry>[] = [
               value: Number(currentEntry.value),
               _id: currentEntry._id // Assuming _id is part of the entry
           };  
-          console.log(tempEntry.date)
           const { success, message } = await deleteDataEntry(tempEntry, mainUser);
       
           if (!success) {
@@ -139,7 +139,7 @@ export const columns: ColumnDef<Entry>[] = [
               </div>
               <DialogFooter className="sm:justify-start">
                   <Button className=' bg-green-400' onClick={handleEdit}>
-                      Edit Expense/Revenue
+                      Edit Entry
                   </Button>
                   <Button type="button" variant="destructive" onClick={handleDelete}>
                       Delete Entry

@@ -12,11 +12,11 @@ router.post('/data/:username', addData);
 
 router.post('/', createUser);
 
-router.delete('/data/:username/:index', deleteData);
+router.delete('/data/:user_id/:id', deleteData);
 
 router.delete('/user/:id', deleteUser); // disambiguated
 
-router.put('/data/:username/:index', editData);
+router.put('/data/:user_id/:id', editData);
 
 router.put('/user/:id', editUser); // disambiguated
 

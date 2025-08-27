@@ -39,23 +39,15 @@ export const getUser = async (req, res) => {
 }
 
 export const deleteData = async (req, res) => {
-    const { username, index } = req.params;
+    const { user_id, id } = req.params;
 
-    if(!username || index === undefined) {
-        return res.status(400).json({ success: false, message: 'Username and index are required' });
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     try {
-        const user = await User.findOne({ username });
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        if (index < 0 || index >= user.data.length) {
-            return res.status(400).json({ success: false, message: 'Invalid index' });
-        }
-
-        user.data.splice(index, 1);
+        const user = await User.findById(user_id);
+        user.data = user.data.filter(item => item._id.toString() !== id);
         await user.save();
         res.status(200).json({ success: true, message: 'Data deleted successfully', data: user.data });
     } catch (error) {
@@ -65,18 +57,29 @@ export const deleteData = async (req, res) => {
 }
 
 export const editData = async (req, res) => {
-    const { id } = req.params;
+    const { user_id, id } = req.params;
 
     const data = req.body;
-
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({ success: false, message: "Invalid Product Id"});
+        return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     try {
-        const updatedProduct = await User.findByIdAndUpdate(id, data ,{new:true});
-        res.status(200).json({success: true, data: updatedProduct});
+        const user = await User.findById(user_id);
+        const dataIndex = user.data.findIndex(item => item._id.toString() === id);
+        if (dataIndex === -1) {
+            res.status(404).json({ success: false, message: "Data entry not found" });
+        }
+        else {
+            user.data[dataIndex].date = data.date;
+            user.data[dataIndex].revenue = data.revenue;
+            user.data[dataIndex].value = data.value;
+            await user.save();
+            const updatedProduct = user.data[dataIndex];
+            res.status(200).json({success: true, message: "Product updated successfully" });
+        }
     } catch(error) {
+        console.error("Edit error", error.message);
         res.status(500).json({success: false, message: "Server Error: Edit "});
     }
 }
