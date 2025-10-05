@@ -24,6 +24,7 @@ interface UserStore {
     editUser: (user: User) => Promise<{success: boolean, message: string}>;
     deleteDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
     editDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: string}>;
+    getDataEntry: (entry: DataEntry, user: User) => Promise<{success: boolean, message: DataEntry}>;
     logout: () => void;
 }
 
@@ -96,7 +97,7 @@ export const useUserStore = create<UserStore>((set) => ({
             set((state) => ({
                 mainUser: {
                     ...state.mainUser,
-                    data: [...state.mainUser.data, entry]
+                    data: [...state.mainUser.data, data.data[data.data.length - 1]]
                 }
             }));
         }
@@ -137,6 +138,17 @@ export const useUserStore = create<UserStore>((set) => ({
             }));
         }
         return {success: data.success, message: data.message || "An error occurred while editing the entry."}
+    },
+    getDataEntry: async (entry: DataEntry, user: User) => {
+        const res = await fetch(`/api/users/data/${user._id}/${entry.date}/${entry.value}/${entry.revenue}`, {
+            method: "GET",
+        });
+        const data = await res.json();
+        if(data.success === false) {
+            return {success:false, message: data.message || "An error occurred while fetching the entry."}
+        }
+        set({ mainUser: { ...user, data: [...user.data, data.data] } });
+        return {success:true, message: data.data || "Entry fetched successfully"}
     },
     logout: async () => {
         set({ mainUser: { username: "", password: "", data: [], _id: "" }, loggedIn: false});

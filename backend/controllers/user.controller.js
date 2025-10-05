@@ -38,6 +38,27 @@ export const getUser = async (req, res) => {
     }
 }
 
+export const getData = async (req, res) => {
+    const { user_id, entry_date, entry_value, entry_revenue } = req.params;
+    if(!mongoose.Types.ObjectId.isValid(user_id)){
+        return res.status(404).json({ success: false, message: "Product not found" });
+    }
+    try {
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        const dataEntry = user.data.find(item => item.date === entry_date && item.value == entry_value && item.revenue == entry_revenue);
+        if (!dataEntry) {
+            return res.status(404).json({ success: false, message: 'Data entry not found' });
+        }
+        res.status(200).json({ success: true, data: dataEntry });
+    } catch (error) {
+        console.error("Fetch error", error.message);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+
 export const deleteData = async (req, res) => {
     const { user_id, id } = req.params;
 
@@ -159,6 +180,7 @@ export const addData = async (req, res) => {
 
         user.data.push(data);
         await user.save();
+        //console.log(user.data);
         res.status(200).json({ success: true, message: 'Data added successfully', data: user.data });
     } catch (error) {
         console.error("Data addition error", error.message);

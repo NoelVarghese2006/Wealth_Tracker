@@ -63,8 +63,10 @@ export const columns: ColumnDef<Entry>[] = [
             value: Number(currentEntry.value),
             _id: currentEntry._id // Assuming _id is part of the entry
         }; 
-        console.log(tempEntry)
-        const {success, message} = await editDataEntry(tempEntry, mainUser);
+
+        const { success, message } = await editDataEntry(tempEntry, mainUser);
+
+        //console.log(withGet);
         
         if (!success) {
             toast.error("Error", {
@@ -77,7 +79,7 @@ export const columns: ColumnDef<Entry>[] = [
             closeButton: true,
             });
         }
-        console.log(mainUser.data)
+        //console.log(mainUser.data)
 
       }
         const handleDelete = async () => {
@@ -102,7 +104,7 @@ export const columns: ColumnDef<Entry>[] = [
               closeButton: true,
               });
           }
-          console.log(mainUser.data)
+          //console.log(mainUser.data)
         };
       return (
         <Dialog>
